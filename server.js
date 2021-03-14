@@ -12,8 +12,10 @@ app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(cors())
 
-app.use('/api/v1/user', require('./routes'))
-app.use('/api/v1/user/:id', require('./routes'))
+const path = '/api/v1/user'
+app.use(`${path}`, require('./routes'))
+app.use(`${path}/delete/:id`, require('./routes'))
+app.use(`${path}/edit/:id`, require('./routes'))
 
 const PORT = process.env.PORT || 5000
 

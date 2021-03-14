@@ -50,7 +50,7 @@ connection.connect((err) => {
 		)
 	})
 
-	router.delete('/:id', (req, res) => {
+	router.delete('/delete/:id', (req, res) => {
 		const id = req.params.id
 		connection.query(
 			`DELETE FROM user_tb WHERE user_id = ?`,
@@ -66,6 +66,30 @@ connection.connect((err) => {
 				res.status(200).json({
 					result: JSON.stringify(result),
 					message: 'Delete user successfully',
+				})
+			}
+		)
+	})
+
+	router.put('/edit/:id', (req, res) => {
+		const id = req.params.id
+		const { first_name, last_name, email, last_update_by } = req.body
+		connection.query(
+			`UPDATE user_tb 
+			SET first_name = ?, last_name = ?, email = ?, last_update_by = ?
+			WHERE user_id = ?`,
+			[first_name, last_name, email, last_update_by, id],
+			(err, result) => {
+				if (err) {
+					res.status(500).json({
+						error: err,
+						status: 500,
+						message: 'Internal Server Error',
+					})
+				}
+				res.status(200).json({
+					result: JSON.stringify(result),
+					message: 'Edit user successfully',
 				})
 			}
 		)
